@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Política de Privacidad - Instant Table Scraper</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0 20px;
+      color: #1e293b;
+      background-color: #f8fafc;
+    }
+    .container {
+      background: #ffffff;
+      padding: 36px;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+    h1 { color: #0f172a; margin-bottom: 8px; font-size: 26px; }
+    h2 { color: #1e293b; margin-top: 24px; font-size: 18px; border-bottom: 1px solid #e2e8f0; padding-bottom: 6px; }
+    p, li { color: #475569; font-size: 15px; }
+    ul { margin-left: 20px; }
+    .badge {
+      display: inline-block;
+      background: #ecfdf5;
+      color: #047857;
+      padding: 4px 12px;
+      border-radius: 99px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+    .disclaimer-box {
+      background: #f1f5f9;
+      border-left: 4px solid #10b981;
+      padding: 14px 18px;
+      margin-top: 24px;
+      border-radius: 0 8px 8px 0;
+      font-size: 14px;
+    }
+    footer {
+      margin-top: 30px;
+      text-align: center;
+      font-size: 13px;
+      color: #94a3b8;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <span class="badge">Privacidad y Seguridad Garantizada</span>
+    <h1>Política de Privacidad</h1>
+    <p><strong>Última actualización:</strong> Septiembre 2026</p>
+    <p>En <strong>Instant Table Scraper</strong>, nos tomamos tu privacidad muy en serio. Esta política describe cómo opera nuestra extensión de Google Chrome y confirma nuestro compromiso de proteger tu privacidad.</p>
+
+    <h2>1. Procesamiento 100% Local (Client-Side)</h2>
+    <p>Instant Table Scraper funciona exclusivamente dentro de tu navegador web. Toda la detección de tablas, conversión de datos y generación de archivos Excel (.xlsx) y CSV ocurre de forma local en tu dispositivo.</p>
+    <ul>
+      <li><strong>Cero almacenamiento en la nube:</strong> No contamos con servidores que reciban, procesen o almacenen los datos que extraes.</li>
+      <li><strong>Cero transmisión de datos de navegación:</strong> Los datos de las páginas web que visitas nunca se transmiten a terceros ni a nuestros desarrolladores.</li>
+    </ul>
+
+    <h2>2. Información que Recopilamos</h2>
+    <p><strong>Ninguna información personal es recopilada.</strong></p>
+    <ul>
+      <li>No recopilamos nombres, correos electrónicos, contraseñas ni datos bancarios.</li>
+      <li>No rastreamos tu historial de navegación ni registramos qué sitios web visitas.</li>
+      <li>Únicamente almacenamos contadores de uso diario (número de exportaciones para el plan gratuito) mediante la API nativa y segura <code>chrome.storage.sync</code> de tu propio navegador.</li>
+    </ul>
+
+    <h2>3. Permisos de la Extensión</h2>
+    <p>Para funcionar correctamente, la extensión solicita los siguientes permisos mínimos:</p>
+    <ul>
+      <li><strong>activeTab:</strong> Necesario para acceder al código HTML de la pestaña activa únicamente cuando haces clic en el icono de la extensión.</li>
+      <li><strong>scripting:</strong> Necesario para inyectar el analizador de tablas en la página que deseas extraer.</li>
+      <li><strong>storage:</strong> Necesario para guardar las preferencias de usuario y los límites diarios de exportación localmente.</li>
+    </ul>
+
+    <h2>4. Pagos y Monetización</h2>
+    <p>Los pagos de suscripciones y licencias de por vida son procesados de forma segura a través de <strong>Stripe</strong> (mediante ExtensionPay). Instant Table Scraper nunca tiene acceso ni almacena los números de tu tarjeta de crédito o información bancaria.</p>
+
+    <h2>5. Descargo de Responsabilidad Legal</h2>
+    <div class="disclaimer-box">
+      <strong>Aviso de uso:</strong> Instant Table Scraper es una herramienta de productividad diseñada para extraer datos públicos. Los usuarios son los únicos responsables de asegurar que el uso de la información extraída cumpla con los términos de servicio de los sitios web que visitan y con las leyes aplicables de cada jurisdicción.
+    </div>
+
+    <footer>
+      Instant Table Scraper &bull; Todos los derechos reservados.
+    </footer>
+  </div>
+</body>
+</html>

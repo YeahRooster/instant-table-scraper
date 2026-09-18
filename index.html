@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Instant Table Scraper - Exporta Tablas y Listas Web o PDF a Excel y CSV</title>
+  <meta name="description" content="Extrae al instante tablas web, catálogos de e-commerce y listas de precios en PDF a Microsoft Excel (.xlsx), CSV y Google Sheets con 1 solo clic. 100% privado y local.">
+  <link rel="icon" type="image/png" href="icons/icon48.png">
+  
+  <!-- Open Graph / Meta -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Instant Table Scraper - De la Web a Excel en 1 Clic">
+  <meta property="og:description" content="Ahorra horas copiando datos. Detecta tablas HTML, catálogos y PDFs y expórtalos al instante a Excel y CSV.">
+  <meta property="og:image" content="screenshot-real-1280x800.png">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#ecfdf5',
+              100: '#d1fae5',
+              400: '#34d399',
+              500: '#10b981',
+              600: '#059669',
+              700: '#047857',
+            },
+            accent: {
+              400: '#818cf8',
+              500: '#6366f1',
+              600: '#4f46e5',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  
+  <style>
+    .glass {
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .glow {
+      box-shadow: 0 0 50px -10px rgba(16, 185, 129, 0.3);
+    }
+    .glow-indigo {
+      box-shadow: 0 0 50px -10px rgba(99, 102, 241, 0.3);
+    }
+  </style>
+</head>
+<body class="bg-[#0b0f19] text-slate-100 font-sans antialiased selection:bg-brand-500 selection:text-white">
+
+  <!-- Glow effect background elements -->
+  <div class="fixed top-0 left-1/2 -translate-x-1/2 w-[800px] h-[450px] bg-gradient-to-tr from-brand-500/15 to-accent-500/15 blur-[120px] rounded-full pointer-events-none -z-10"></div>
+  <div class="fixed bottom-10 right-0 w-[500px] h-[400px] bg-accent-500/10 blur-[140px] rounded-full pointer-events-none -z-10"></div>
+
+  <!-- Header / Navigation -->
+  <header class="sticky top-0 z-50 glass border-b border-slate-800/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <a href="#" class="flex items-center gap-3 group">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-500 to-emerald-400 p-2 shadow-lg shadow-brand-500/20 flex items-center justify-center transition-transform group-hover:scale-105">
+          <svg class="w-6 h-6 text-slate-950 font-bold" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M3 14h18m-9-4v8m-7 4h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+        </div>
+        <div class="flex flex-col">
+          <span class="text-lg font-bold tracking-tight text-white flex items-center gap-1.5">
+            Instant Table Scraper
+            <span class="text-[10px] font-semibold tracking-wide bg-brand-500/20 text-brand-400 border border-brand-500/30 px-1.5 py-0.5 rounded">v1.0</span>
+          </span>
+          <span class="text-xs text-slate-400">Web & PDF to Excel Converter</span>
+        </div>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+        <a href="#features" class="hover:text-brand-400 transition-colors">Funcionalidades</a>
+        <a href="#how-it-works" class="hover:text-brand-400 transition-colors">Cómo Funciona</a>
+        <a href="#use-cases" class="hover:text-brand-400 transition-colors">Casos de Uso</a>
+        <a href="#pricing" class="hover:text-brand-400 transition-colors">Precios</a>
+        <a href="#faq" class="hover:text-brand-400 transition-colors">Preguntas Frecuentes</a>
+      </nav>
+
+      <div class="flex items-center gap-3">
+        <a href="https://chromewebstore.google.com/detail/bkkpeadmaehpekckbccdeieppelgkilm" target="_blank" rel="noopener noreferrer" 
+           class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-brand-500 to-emerald-600 hover:from-brand-400 hover:to-emerald-500 text-slate-950 font-semibold text-sm shadow-lg shadow-brand-500/25 transition-all hover:shadow-brand-500/40 hover:-translate-y-0.5">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 0C8.21 0 4.831 1.757 2.632 4.501l3.953 6.848A5.454 5.454 0 0 1 12 6.545h10.73A11.948 11.948 0 0 0 12 0zm-8.89 5.864A11.94 11.94 0 0 0 0 12c0 6.012 4.43 10.99 10.207 11.854l3.954-6.848a5.45 5.45 0 0 1-7.142-2.315L3.11 5.864zm10.366 3.636a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zm3.766-2.5a5.455 5.455 0 0 1 1.68 5.795l-3.953 6.849A11.95 11.95 0 0 0 24 12c0-2.42-.72-4.673-1.96-6.555l-4.798.11z"/>
+          </svg>
+          <span>Añadir a Chrome</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="relative pt-20 pb-28 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      
+      <!-- Pill Badge -->
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-800/80 border border-slate-700/70 text-xs font-medium text-slate-300 mb-8 backdrop-blur-md">
+        <span class="w-2 h-2 rounded-full bg-brand-400 animate-pulse"></span>
+        <span>Extensión Oficial para Google Chrome</span>
+        <span class="text-slate-500">•</span>
+        <span class="text-brand-400 font-semibold">100% Gratis para Empezar</span>
+      </div>
+
+      <!-- Main Headline -->
+      <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white max-w-5xl mx-auto leading-[1.12]">
+        Extrae cualquier tabla, catálogo o <span class="bg-gradient-to-r from-brand-400 via-emerald-300 to-teal-200 bg-clip-text text-transparent">PDF a Excel</span> en 1 solo clic.
+      </h1>
+
+      <!-- Subtitle -->
+      <p class="mt-6 text-lg sm:text-xl text-slate-400 max-w-3xl mx-auto font-normal leading-relaxed">
+        Deja de copiar y pegar filas a mano. Detecta automáticamente tablas HTML, listas de e-commerce y catálogos de proveedores en PDF, descargándolos en <strong class="text-slate-200">Excel (.xlsx)</strong>, <strong class="text-slate-200">CSV</strong> o <strong class="text-slate-200">Google Sheets</strong> al instante.
+      </p>
+
+      <!-- CTA Buttons -->
+      <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a href="https://chromewebstore.google.com/detail/bkkpeadmaehpekckbccdeieppelgkilm" target="_blank" rel="noopener noreferrer"
+           class="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-brand-500 to-emerald-600 hover:from-brand-400 hover:to-emerald-500 text-slate-950 font-bold text-base shadow-xl shadow-brand-500/25 transition-all hover:scale-[1.02] hover:shadow-brand-500/40">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 0C8.21 0 4.831 1.757 2.632 4.501l3.953 6.848A5.454 5.454 0 0 1 12 6.545h10.73A11.948 11.948 0 0 0 12 0zm-8.89 5.864A11.94 11.94 0 0 0 0 12c0 6.012 4.43 10.99 10.207 11.854l3.954-6.848a5.45 5.45 0 0 1-7.142-2.315L3.11 5.864zm10.366 3.636a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zm3.766-2.5a5.455 5.455 0 0 1 1.68 5.795l-3.953 6.849A11.95 11.95 0 0 0 24 12c0-2.42-.72-4.673-1.96-6.555l-4.798.11z"/>
+          </svg>
+          <span>Instalar Gratis en Chrome</span>
+        </a>
+        <a href="#features" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl glass hover:bg-slate-800/80 text-slate-200 font-semibold text-base transition-colors">
+          <span>Ver Funcionalidades</span>
+          <svg class="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </a>
+      </div>
+
+      <!-- Trust signals -->
+      <div class="mt-8 flex flex-wrap items-center justify-center gap-6 text-xs text-slate-400">
+        <span class="flex items-center gap-1.5">
+          <svg class="w-4 h-4 text-brand-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+          Sin registro ni tarjeta de crédito requerida
+        </span>
+        <span class="flex items-center gap-1.5">
+          <svg class="w-4 h-4 text-brand-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+          100% Seguro & Privado (procesado en tu equipo)
+        </span>
+        <span class="flex items-center gap-1.5">
+          <svg class="w-4 h-4 text-brand-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          Compatible con Chrome, Brave, Edge & Opera
+        </span>
+      </div>
+
+      <!-- Product Preview Mockup -->
+      <div class="mt-16 relative max-w-5xl mx-auto">
+        <div class="relative rounded-2xl p-2 sm:p-3 bg-gradient-to-b from-slate-700/50 via-slate-800/30 to-slate-900/50 border border-slate-700/60 shadow-2xl glow">
+          <!-- Window Top Bar -->
+          <div class="flex items-center justify-between px-4 py-2.5 bg-slate-950/80 rounded-t-xl border-b border-slate-800">
+            <div class="flex items-center gap-2">
+              <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+              <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+              <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
+            </div>
+            <div class="text-xs text-slate-400 font-mono flex items-center gap-2 bg-slate-900 px-4 py-1 rounded-md border border-slate-800">
+              <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+              <span>https://catalogo-mayorista.com/precios</span>
+            </div>
+            <div class="text-xs text-brand-400 font-semibold flex items-center gap-1">
+              <span class="w-2 h-2 rounded-full bg-brand-400"></span> Scraper Activo
+            </div>
+          </div>
+          <!-- Screenshot Image -->
+          <div class="rounded-b-xl overflow-hidden bg-slate-950">
+            <img src="screenshot-real-1280x800.png" alt="Instant Table Scraper en acción extrayendo catálogo a Excel" class="w-full h-auto object-cover">
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Features Grid -->
+  <section id="features" class="py-24 bg-slate-950/60 border-t border-slate-800/80 relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <h2 class="text-xs font-bold text-brand-400 uppercase tracking-widest">Tecnología de Extracción</h2>
+        <p class="mt-2 text-3xl sm:text-4xl font-extrabold text-white">
+          Todo lo que necesitas para raspar datos como un profesional
+        </p>
+        <p class="mt-4 text-slate-400 text-base">
+          Sin aprender código, sin selectores CSS complicados y sin pagar suscripciones mensuales de $50 USD.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        
+        <!-- Feature 1 -->
+        <div class="glass p-7 rounded-2xl border border-slate-800 hover:border-brand-500/40 transition-all hover:-translate-y-1">
+          <div class="w-12 h-12 rounded-xl bg-brand-500/10 border border-brand-500/20 text-brand-400 flex items-center justify-center mb-5">
+            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 4h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+            </svg>
+          </div>
+          <h3 class="text-lg font-bold text-white mb-2">Detección Inteligente Multiformato</h3>
+          <p class="text-sm text-slate-400 leading-relaxed">
+            Reconoce instantáneamente tablas HTML estándar, tarjetas financieras (divisas, cotizaciones, acciones) y listas estructuradas ignorando barras de navegación y pies de página.
+          </p>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="glass p-7 rounded-2xl border border-slate-800 hover:border-brand-500/40 transition-all hover:-translate-y-1">
+          <div class="w-12 h-12 rounded-xl bg-accent-500/10 border border-accent-500/20 text-accent-400 flex items-center justify-center mb-5">
+            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+            </svg>
+          </div>
+          <h3 class="text-lg font-bold text-white mb-2">Catálogos E-Commerce Completos</h3>
+          <p class="text-sm text-slate-400 leading-relaxed">
+            Extrae cuadrículas de tiendas online (MercadoLibre, Amazon, Shopify, WooCommerce). Captura automáticamente Nombre, Precio, SKU, Enlace y Stock en columnas limpias.
+          </p>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="glass p-7 rounded-2xl border border-slate-800 hover:border-brand-500/40 transition-all hover:-translate-y-1">
+          <div class="w-12 h-12 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400 flex items-center justify-center mb-5">
+            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+          </div>
+          <h3 class="text-lg font-bold text-white mb-2">Extractor de Tablas en PDF</h3>
+          <p class="text-sm text-slate-400 leading-relaxed">
+            ¿Tu proveedor te envió una lista de precios en PDF de 50 páginas? Arrástralo a la extensión y convierte todas las páginas en una única hoja de cálculo unificada.
+          </p>
+        </div>
+
+        <!-- Feature 4 -->
+        <div class="glass p-7 rounded-2xl border border-slate-800 hover:border-brand-500/40 transition-all hover:-translate-y-1">
+          <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center mb-5">
+            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"/>
+            </svg>
+          </div>
+          <h3 class="text-lg font-bold text-white mb-2">Selector Visual con 1 Clic</h3>
+          <p class="text-sm text-slate-400 leading-relaxed">
+            Para páginas desordenadas o diseños modernos: haz clic en cualquier tarjeta o producto y el selector inteligente capturará todos los elementos similares automáticamente.
+          </p>
+        </div>
+
+        <!-- Feature 5 -->
+        <div class="glass p-7 rounded-2xl border border-slate-800 hover:border-brand-500/40 transition-all hover:-translate-y-1">
+          <div class="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 flex items-center justify-center mb-5">
+            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+            </svg>
+          </div>
+          <h3 class="text-lg font-bold text-white mb-2">Motor de Auto-Scroll</h3>
+          <p class="text-sm text-slate-400 leading-relaxed">
+            ¿La web carga más productos a medida que bajas? Activa el Auto-Scroll para desplazarte automáticamente por toda la página y recopilar cientos de filas sin esfuerzo.
+          </p>
+        </div>
+
+        <!-- Feature 6 -->
+        <div class="glass p-7 rounded-2xl border border-slate-800 hover:border-brand-500/40 transition-all hover:-translate-y-1">
+          <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center mb-5">
+            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+          </div>
+          <h3 class="text-lg font-bold text-white mb-2">Exportación Nativa & Limpia</h3>
+          <p class="text-sm text-slate-400 leading-relaxed">
+            Genera archivos binarios reales de <strong>Excel (.xlsx)</strong>, archivos <strong>CSV con UTF-8 BOM</strong> (sin errores de tildes ni caracteres extraños) o copia directamente a <strong>Google Sheets</strong>.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section id="how-it-works" class="py-24 relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <h2 class="text-xs font-bold text-brand-400 uppercase tracking-widest">Flujo Simplificado</h2>
+        <p class="mt-2 text-3xl sm:text-4xl font-extrabold text-white">
+          De la web a tu hoja de cálculo en 3 pasos
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+        
+        <!-- Step 1 -->
+        <div class="glass p-8 rounded-2xl text-center relative border border-slate-800">
+          <div class="w-14 h-14 mx-auto rounded-2xl bg-brand-500 text-slate-950 font-black text-xl flex items-center justify-center mb-6 shadow-lg shadow-brand-500/30">
+            1
+          </div>
+          <h3 class="text-xl font-bold text-white mb-3">Abre la Página o PDF</h3>
+          <p class="text-sm text-slate-400 leading-relaxed">
+            Navega a cualquier sitio web con datos tabulares o abre la pestaña PDF y arrastra tu archivo de precios o facturas.
+          </p>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="glass p-8 rounded-2xl text-center relative border border-slate-800">
+          <div class="w-14 h-14 mx-auto rounded-2xl bg-brand-500 text-slate-950 font-black text-xl flex items-center justify-center mb-6 shadow-lg shadow-brand-500/30">
+            2
+          </div>
+          <h3 class="text-xl font-bold text-white mb-3">Revisa la Vista Previa</h3>
+          <p class="text-sm text-slate-400 leading-relaxed">
+            La extensión detecta automáticamente todas las tablas, te muestra el conteo exacto de filas/columnas y te permite previsualizarlas.
+          </p>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="glass p-8 rounded-2xl text-center relative border border-slate-800">
+          <div class="w-14 h-14 mx-auto rounded-2xl bg-brand-500 text-slate-950 font-black text-xl flex items-center justify-center mb-6 shadow-lg shadow-brand-500/30">
+            3
+          </div>
+          <h3 class="text-xl font-bold text-white mb-3">Exporta a Excel o CSV</h3>
+          <p class="text-sm text-slate-400 leading-relaxed">
+            Haz clic en "Descargar Excel (.xlsx)" o "Copiar para Google Sheets" y obtén tus datos perfectamente estructurados y listos para trabajar.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Security / Privacy Banner -->
+  <section class="py-16 bg-slate-900/50 border-y border-slate-800">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-8">
+      <div class="flex items-center gap-5">
+        <div class="w-16 h-16 rounded-2xl bg-brand-500/10 border border-brand-500/30 text-brand-400 flex items-center justify-center shrink-0">
+          <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+          </svg>
+        </div>
+        <div>
+          <h3 class="text-xl font-bold text-white">Privacidad Garantizada: 100% Procesamiento Local</h3>
+          <p class="mt-1 text-sm text-slate-400 max-w-xl">
+            Tus datos nunca salen de tu navegador ni se envían a servidores de terceros. Ideal para empresas con acuerdos de confidencialidad y datos financieros sensibles.
+          </p>
+        </div>
+      </div>
+      <a href="privacy.html" class="inline-flex items-center gap-2 text-sm font-semibold text-brand-400 hover:text-brand-300 transition-colors shrink-0">
+        <span>Leer Política de Privacidad</span>
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- Use Cases -->
+  <section id="use-cases" class="py-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <h2 class="text-xs font-bold text-brand-400 uppercase tracking-widest">¿Para Quién Es?</h2>
+        <p class="mt-2 text-3xl sm:text-4xl font-extrabold text-white">
+          Diseñado para profesionales que valoran su tiempo
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        <div class="glass p-6 rounded-2xl border border-slate-800">
+          <div class="text-2xl mb-3">🛒</div>
+          <h4 class="text-base font-bold text-white mb-2">Comercio & E-commerce</h4>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Compara precios de la competencia, descarga catálogos completos con imágenes y mantén tu inventario siempre actualizado.
+          </p>
+        </div>
+
+        <div class="glass p-6 rounded-2xl border border-slate-800">
+          <div class="text-2xl mb-3">📈</div>
+          <h4 class="text-base font-bold text-white mb-2">Finanzas & Contabilidad</h4>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Captura cotizaciones históricas, tablas de balances bancarios y listas de precios de distribuidores en formato PDF.
+          </p>
+        </div>
+
+        <div class="glass p-6 rounded-2xl border border-slate-800">
+          <div class="text-2xl mb-3">🎯</div>
+          <h4 class="text-base font-bold text-white mb-2">Marketing & Ventas B2B</h4>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Extrae directorios empresariales, listas de prospectos y eventos de la industria directamente a tu CRM o Google Sheets.
+          </p>
+        </div>
+
+        <div class="glass p-6 rounded-2xl border border-slate-800">
+          <div class="text-2xl mb-3">🔬</div>
+          <h4 class="text-base font-bold text-white mb-2">Investigadores & Data</h4>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Convierte reportes estadísticos, tablas de censos y artículos gubernamentales en archivos .xlsx listos para Python, R o PowerBI.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Pricing Section -->
+  <section id="pricing" class="py-24 bg-slate-950/60 border-t border-slate-800 relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <h2 class="text-xs font-bold text-brand-400 uppercase tracking-widest">Planes Transparentes</h2>
+        <p class="mt-2 text-3xl sm:text-4xl font-extrabold text-white">
+          Comienza gratis, actualiza cuando lo necesites
+        </p>
+        <p class="mt-4 text-slate-400 text-base">
+          Sin tarifas ocultas. Pagos procesados de forma 100% segura por Lemon Squeezy en USD.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto items-stretch">
+        
+        <!-- Free Plan -->
+        <div class="glass p-7 rounded-3xl border border-slate-800 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-lg font-bold text-white">Plan Free</h3>
+              <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-800 text-slate-400 border border-slate-700">Para siempre</span>
+            </div>
+            <div class="mb-5">
+              <span class="text-4xl font-extrabold text-white">$0</span>
+              <span class="text-sm text-slate-400"> / gratis</span>
+            </div>
+            <p class="text-xs text-slate-400 mb-6">Ideal para tareas esporádicas y probar la extensión en tus sitios web favoritos.</p>
+
+            <ul class="space-y-3 text-sm text-slate-300 border-t border-slate-800/80 pt-5">
+              <li class="flex items-center gap-2.5">
+                <svg class="w-4 h-4 text-brand-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                <span><strong>2 exportaciones</strong> por día</span>
+              </li>
+              <li class="flex items-center gap-2.5">
+                <svg class="w-4 h-4 text-brand-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                <span>Hasta <strong>40 filas</strong> por día</span>
+              </li>
+              <li class="flex items-center gap-2.5">
+                <svg class="w-4 h-4 text-brand-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                <span>Exporta a Excel, CSV y TSV</span>
+              </li>
+              <li class="flex items-center gap-2.5">
+                <svg class="w-4 h-4 text-brand-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                <span>Lector de archivos PDF básico</span>
+              </li>
+            </ul>
+          </div>
+
+          <a href="https://chromewebstore.google.com/detail/bkkpeadmaehpekckbccdeieppelgkilm" target="_blank" rel="noopener noreferrer"
+             class="mt-8 block text-center py-3 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold text-sm transition-colors border border-slate-700">
+            Descargar Gratis
+          </a>
+        </div>
+
+        <!-- Pro Monthly -->
+        <div class="glass p-7 rounded-3xl border border-slate-800 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-lg font-bold text-white">Plan Pro Mensual</h3>
+              <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700">Mes a Mes</span>
+            </div>
+            <div class="mb-5">
+              <span class="text-4xl font-extrabold text-white">$5</span>
+              <span class="text-sm text-slate-400"> USD / mes</span>
+              <div class="text-xs text-slate-400 mt-1">Cancela cuando quieras</div>
+            </div>
+            <p class="text-xs text-slate-400 mb-6">Máxima flexibilidad sin compromiso a largo plazo para proyectos puntuales.</p>
+
+            <ul class="space-y-3 text-sm text-slate-300 border-t border-slate-800/80 pt-5">
+              <li class="flex items-center gap-2.5 font-medium text-white">
+                <svg class="w-4 h-4 text-brand-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                <span><strong>Exportaciones ILIMITADAS</strong></span>
+              </li>
+              <li class="flex items-center gap-2.5 font-medium text-white">
+                <svg class="w-4 h-4 text-brand-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                <span><strong>Filas ILIMITADAS</strong></span>
+              </li>
+              <li class="flex items-center gap-2.5">
+                <svg class="w-4 h-4 text-brand-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                <span>Selector Visual con 1 Clic</span>
+              </li>
+              <li class="flex items-center gap-2.5">
+                <svg class="w-4 h-4 text-brand-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                <span>Motor de Auto-Scroll Infinito</span>
+              </li>
+              <li class="flex items-center gap-2.5">
+                <svg class="w-4 h-4 text-brand-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                <span>Extractor PDF Multipage</span>
+              </li>
+            </ul>
+          </div>
+
+          <a href="https://yeahtecnologias.lemonsqueezy.com/checkout/buy/8c2a6df5-3e1c-414e-b894-98970dcf1ca8" target="_blank" rel="noopener noreferrer"
+             class="mt-8 block text-center py-3 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold text-sm transition-colors border border-slate-700">
+            Comprar Plan Mensual ($5)
+          </a>
+        </div>
+
+        <!-- Pro Annual (Featured) -->
+        <div class="glass p-7 rounded-3xl border-2 border-brand-500/80 flex flex-col justify-between relative glow-indigo bg-gradient-to-b from-slate-900/90 to-slate-950">
+          <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 px-3.5 py-1 rounded-full bg-gradient-to-r from-brand-500 to-emerald-400 text-slate-950 font-extrabold text-[11px] tracking-wide shadow-md uppercase whitespace-nowrap">
+            Más Popular (Ahorra 25%)
+          </div>
+
+          <div>
+            <div class="flex items-center justify-between mb-4 mt-1">
+              <h3 class="text-lg font-bold text-white">Plan Pro Anual</h3>
+              <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-brand-500/20 text-brand-400 border border-brand-500/30">Recomendado</span>
+            </div>
+            <div class="mb-5">
+              <span class="text-4xl font-extrabold text-white">$45</span>
+              <span class="text-sm text-slate-400"> USD / año</span>
+              <div class="text-xs text-brand-400 mt-1 font-medium">Solo $3.75 USD al mes</div>
+            </div>
+            <p class="text-xs text-slate-400 mb-6">Para profesionales y negocios que necesitan raspar datos de forma continua.</p>
+
+            <ul class="space-y-3 text-sm text-slate-300 border-t border-slate-800/80 pt-5">
+              <li class="flex items-center gap-2.5 font-medium text-white">
+                <svg class="w-4 h-4 text-brand-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                <span><strong>Exportaciones ILIMITADAS</strong></span>
+              </li>
+              <li class="flex items-center gap-2.5 font-medium text-white">
+                <svg class="w-4 h-4 text-brand-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                <span><strong>Filas ILIMITADAS</strong></span>
+              </li>
+              <li class="flex items-center gap-2.5">
+                <svg class="w-4 h-4 text-brand-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                <span>Selector Visual con 1 Clic</span>
+              </li>
+              <li class="flex items-center gap-2.5">
+                <svg class="w-4 h-4 text-brand-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                <span>Motor de Auto-Scroll Infinito</span>
+              </li>
+              <li class="flex items-center gap-2.5">
+                <svg class="w-4 h-4 text-brand-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                <span>Extractor PDF Multipage</span>
+              </li>
+              <li class="flex items-center gap-2.5">
+                <svg class="w-4 h-4 text-brand-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                <span>Soporte prioritario</span>
+              </li>
+            </ul>
+          </div>
+
+          <a href="https://yeahtecnologias.lemonsqueezy.com/checkout/buy/8c2a6df5-3e1c-414e-b894-98970dcf1ca8" target="_blank" rel="noopener noreferrer"
+             class="mt-8 block text-center py-3 px-4 rounded-xl bg-gradient-to-r from-brand-500 to-emerald-600 hover:from-brand-400 hover:to-emerald-500 text-slate-950 font-bold text-sm shadow-lg shadow-brand-500/25 transition-transform hover:scale-[1.02]">
+            Comprar Plan Anual ($45)
+          </a>
+        </div>
+
+        <!-- Pro Lifetime -->
+        <div class="glass p-7 rounded-3xl border border-slate-800 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-lg font-bold text-white">Plan Lifetime</h3>
+              <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-accent-500/20 text-accent-400 border border-accent-500/30">Pago Único</span>
+            </div>
+            <div class="mb-5">
+              <span class="text-4xl font-extrabold text-white">$90</span>
+              <span class="text-sm text-slate-400"> USD / único</span>
+              <div class="text-xs text-slate-400 mt-1">Sin suscripciones</div>
+            </div>
+            <p class="text-xs text-slate-400 mb-6">Pagas una sola vez y tienes acceso Pro ilimitado de por vida para siempre.</p>
+
+            <ul class="space-y-3 text-sm text-slate-300 border-t border-slate-800/80 pt-5">
+              <li class="flex items-center gap-2.5 font-medium text-white">
+                <svg class="w-4 h-4 text-brand-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                <span><strong>Acceso de por vida</strong></span>
+              </li>
+              <li class="flex items-center gap-2.5">
+                <svg class="w-4 h-4 text-brand-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                <span>Exportaciones y filas ilimitadas</span>
+              </li>
+              <li class="flex items-center gap-2.5">
+                <svg class="w-4 h-4 text-brand-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                <span>Todas las funciones Pro futuras</span>
+              </li>
+              <li class="flex items-center gap-2.5">
+                <svg class="w-4 h-4 text-brand-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                <span>Licencia transferible</span>
+              </li>
+            </ul>
+          </div>
+
+          <a href="https://yeahtecnologias.lemonsqueezy.com/checkout/buy/b2e94c2b-7210-437e-9462-a17d70b097d3" target="_blank" rel="noopener noreferrer"
+             class="mt-8 block text-center py-3 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold text-sm transition-colors border border-slate-700">
+            Comprar de por Vida ($90)
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FAQ Accordion -->
+  <section id="faq" class="py-24">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center mb-16">
+        <h2 class="text-xs font-bold text-brand-400 uppercase tracking-widest">Dudas Habituales</h2>
+        <p class="mt-2 text-3xl sm:text-4xl font-extrabold text-white">Preguntas Frecuentes</p>
+      </div>
+
+      <div class="space-y-4" id="faq-container">
+        
+        <!-- Q1 -->
+        <div class="glass rounded-2xl border border-slate-800 overflow-hidden">
+          <button class="w-full px-6 py-5 text-left font-semibold text-white flex items-center justify-between gap-4 focus:outline-none" onclick="toggleFaq(this)">
+            <span>¿Es realmente gratis la extensión?</span>
+            <svg class="w-5 h-5 text-slate-400 transform transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="px-6 pb-5 text-sm text-slate-400 hidden">
+            ¡Sí! Puedes instalarla y usarla gratis todos los días con hasta 2 exportaciones diarias y 40 filas por exportación. Si requieres exportaciones masivas ilimitadas para uso intensivo comercial, puedes ascender al plan Pro en cualquier momento.
+          </div>
+        </div>
+
+        <!-- Q2 -->
+        <div class="glass rounded-2xl border border-slate-800 overflow-hidden">
+          <button class="w-full px-6 py-5 text-left font-semibold text-white flex items-center justify-between gap-4 focus:outline-none" onclick="toggleFaq(this)">
+            <span>¿Cómo funciona el extractor de archivos PDF?</span>
+            <svg class="w-5 h-5 text-slate-400 transform transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="px-6 pb-5 text-sm text-slate-400 hidden">
+            Abres la extensión, haces clic en la pestaña "Archivo PDF" y arrastras cualquier documento PDF de tu computadora (catálogos de proveedores, listas de precios, facturas). El motor local analiza el texto y las coordenadas visuales de las tablas y te genera un archivo Excel unificado con todas las páginas.
+          </div>
+        </div>
+
+        <!-- Q3 -->
+        <div class="glass rounded-2xl border border-slate-800 overflow-hidden">
+          <button class="w-full px-6 py-5 text-left font-semibold text-white flex items-center justify-between gap-4 focus:outline-none" onclick="toggleFaq(this)">
+            <span>¿Mis datos o páginas visitadas se envían a sus servidores?</span>
+            <svg class="w-5 h-5 text-slate-400 transform transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="px-6 pb-5 text-sm text-slate-400 hidden">
+            <strong>Absolutamente no.</strong> Instant Table Scraper opera 100% dentro de tu navegador web Chrome. No tenemos servidores que reciban tu información, no almacenamos cookies de rastreo y no guardamos copias de los datos que exportas.
+          </div>
+        </div>
+
+        <!-- Q4 -->
+        <div class="glass rounded-2xl border border-slate-800 overflow-hidden">
+          <button class="w-full px-6 py-5 text-left font-semibold text-white flex items-center justify-between gap-4 focus:outline-none" onclick="toggleFaq(this)">
+            <span>¿Qué ocurre si la página tiene scroll infinito?</span>
+            <svg class="w-5 h-5 text-slate-400 transform transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="px-6 pb-5 text-sm text-slate-400 hidden">
+            Simplemente pulsa el botón "Auto-Scroll" dentro del popup de la extensión. La extensión desplazará la página suavemente hasta el final para forzar la carga de todos los elementos diferidos y luego capturará el catálogo completo.
+          </div>
+        </div>
+
+        <!-- Q5 -->
+        <div class="glass rounded-2xl border border-slate-800 overflow-hidden">
+          <button class="w-full px-6 py-5 text-left font-semibold text-white flex items-center justify-between gap-4 focus:outline-none" onclick="toggleFaq(this)">
+            <span>¿Cómo activo mi licencia Pro tras realizar la compra?</span>
+            <svg class="w-5 h-5 text-slate-400 transform transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="px-6 pb-5 text-sm text-slate-400 hidden">
+            Al completar el pago en Lemon Squeezy recibirás un correo instantáneo con tu recibo y número de orden. Abre la extensión, pulsa el botón "PRO", pega tu clave de compra o email y tu cuenta quedará desbloqueada al instante.
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Final CTA Banner -->
+  <section class="py-20 relative overflow-hidden">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+      <div class="glass p-12 sm:p-16 rounded-3xl border border-slate-700/60 glow-indigo">
+        <h2 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
+          Empieza a ahorrar horas de trabajo hoy mismo
+        </h2>
+        <p class="mt-4 text-base sm:text-lg text-slate-400 max-w-2xl mx-auto">
+          Instala Instant Table Scraper gratis en Google Chrome y exporta tu primera tabla en menos de 30 segundos.
+        </p>
+        <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a href="https://chromewebstore.google.com/detail/bkkpeadmaehpekckbccdeieppelgkilm" target="_blank" rel="noopener noreferrer"
+             class="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-brand-500 to-emerald-600 hover:from-brand-400 hover:to-emerald-500 text-slate-950 font-bold text-base shadow-xl shadow-brand-500/25 transition-transform hover:scale-105">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0C8.21 0 4.831 1.757 2.632 4.501l3.953 6.848A5.454 5.454 0 0 1 12 6.545h10.73A11.948 11.948 0 0 0 12 0zm-8.89 5.864A11.94 11.94 0 0 0 0 12c0 6.012 4.43 10.99 10.207 11.854l3.954-6.848a5.45 5.45 0 0 1-7.142-2.315L3.11 5.864zm10.366 3.636a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zm3.766-2.5a5.455 5.455 0 0 1 1.68 5.795l-3.953 6.849A11.95 11.95 0 0 0 24 12c0-2.42-.72-4.673-1.96-6.555l-4.798.11z"/>
+            </svg>
+            <span>Añadir a Google Chrome (Gratis)</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="glass border-t border-slate-800/80 py-12 text-sm text-slate-500">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-brand-500 to-emerald-400 p-1.5 flex items-center justify-center">
+          <svg class="w-5 h-5 text-slate-950 font-bold" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M3 14h18m-9-4v8m-7 4h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+        </div>
+        <span class="font-semibold text-slate-300">Instant Table Scraper</span>
+        <span>© 2026 Yeah! Tecnologías.</span>
+      </div>
+
+      <div class="flex items-center gap-6">
+        <a href="https://chromewebstore.google.com/detail/bkkpeadmaehpekckbccdeieppelgkilm" target="_blank" class="hover:text-slate-300 transition-colors">Chrome Web Store</a>
+        <a href="privacy.html" class="hover:text-slate-300 transition-colors">Política de Privacidad</a>
+        <a href="mailto:soporte@yeahtecnologias.com" class="hover:text-slate-300 transition-colors">Contacto & Soporte</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Script for FAQ accordion -->
+  <script>
+    function toggleFaq(button) {
+      const content = button.nextElementSibling;
+      const svg = button.querySelector('svg');
+      const isHidden = content.classList.contains('hidden');
+      
+      // Close all
+      document.querySelectorAll('#faq-container > div > div').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('#faq-container button svg').forEach(el => el.classList.remove('rotate-180'));
+
+      if (isHidden) {
+        content.classList.remove('hidden');
+        svg.classList.add('rotate-180');
+      }
+    }
+  </script>
+
+</body>
+</html>
